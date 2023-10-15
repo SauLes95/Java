@@ -228,7 +228,6 @@ public class Main {
                     items = removeItem(items, tmpItemNum);
                 }
 
-
             } while (tmpItemNum != 0);
 
             stores[i] = new Store(tmpName, tmpEmailAddress, storeItems);
