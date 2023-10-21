@@ -188,7 +188,6 @@ public class Main {
                         items = removeItem(items, tmpItemNum);
                     }
 
-
                 } while (tmpItemNum != 0 && items.length > 0);
             }
             else{
