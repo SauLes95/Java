@@ -194,7 +194,6 @@ public class Main {
                 System.out.println("\tThere is no items left to place in a factory");
             }
 
-
             factories[i] = new Factory(tmpName, tmpAddress, factoryItems);
         }
 
