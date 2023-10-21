@@ -12,7 +12,7 @@ public class Main {
     private static final int NUM_FACTORIES = 2;
     private static final int NUM_STORES = 2;
 
-    private static Scanner scanner = new Scanner (System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
 
     public static void main(String[] args) {
@@ -26,18 +26,20 @@ public class Main {
 
         Store theCheapestStore = storeWithTheCheapestItem(stores);
         System.out.println("Store  with the cheapest item is " + theCheapestStore.getName());
+
+
     }
 
-    static Item[] reduceItemsSize(Item[] items){
+    static Item[] reduceItemsSize(Item[] items) {
 
         return new Item[items.length - 1];
     }
 
-    static Item[] removeItem (Item[] items, int tmpItemNumber){
+    static Item[] removeItem(Item[] items, int tmpItemNumber) {
         Item[] newItems = reduceItemsSize(items);
         int tmpCounter = 0;
-        for( int i = 0 ; i < items.length ; i++){
-            if(i != tmpItemNumber - 1){
+        for (int i = 0; i < items.length; i++) {
+            if (i != tmpItemNumber - 1) {
                 newItems[tmpCounter] = items[i];
                 tmpCounter++;
             }
@@ -46,17 +48,18 @@ public class Main {
         return newItems;
     }
 
-    static Item[] increaseItemsSize(Item[] factoryItems){
+    static Item[] increaseItemsSize(Item[] factoryItems) {
 
         Item[] newItems = new Item[factoryItems.length + 1];
 
-        for(int i = 0; i < factoryItems.length ; i++){
+        for (int i = 0; i < factoryItems.length; i++) {
             newItems[i] = factoryItems[i];
         }
+
         return newItems;
     }
 
-    static Item[] addItem(Item item, Item[] items){
+    static Item[] addItem(Item item, Item[] items) {
         Item[] newItems = increaseItemsSize(items);
         newItems[items.length] = item;
 
@@ -64,13 +67,13 @@ public class Main {
     }
 
 
-    static Category[] setCategories(){
+    static Category[] setCategories() {
         Category[] categories = new Category[NUM_CATEGORIES];
 
         System.out.println("INSERT CATEGORIES");
-        for (int i = 0; i < NUM_CATEGORIES; i++ ){
+        for (int i = 0; i < NUM_CATEGORIES; i++) {
 
-            System.out.println("CATEGORY "+ (i + 1));
+            System.out.println("CATEGORY " + (i + 1));
             System.out.print("\tName: ");
             String tmpName = scanner.nextLine();
 
@@ -83,11 +86,11 @@ public class Main {
         return categories;
     }
 
-    static Item[] setItems(Category[] categories){
+    static Item[] setItems(Category[] categories) {
         Item[] items = new Item[NUM_ITEMS];
 
         System.out.println("INSERT ITEMS");
-        for (int i = 0; i < NUM_ITEMS; i++ ) {
+        for (int i = 0; i < NUM_ITEMS; i++) {
 
             System.out.println("ITEM " + (i + 1));
             System.out.print("\tName: ");
@@ -104,11 +107,11 @@ public class Main {
                 categoryNumber = scanner.nextInt();
                 scanner.nextLine();
 
-                if (categoryNumber < 1 || categoryNumber > NUM_CATEGORIES){
+                if (categoryNumber < 1 || categoryNumber > NUM_CATEGORIES) {
                     System.out.println("\tWrong number of category, please enter correct number of category");
                 }
 
-            }while(categoryNumber < 1 || categoryNumber > NUM_CATEGORIES);
+            } while (categoryNumber < 1 || categoryNumber > NUM_CATEGORIES);
 
 
             Category tmpCategory = categories[categoryNumber - 1];
@@ -144,9 +147,9 @@ public class Main {
 
         System.out.println("INSERT FACTORIES");
 
-        for ( int i = 0; i < NUM_FACTORIES; i++){
+        for (int i = 0; i < NUM_FACTORIES; i++) {
 
-            System.out.println("FACTORY " + (i+1));
+            System.out.println("FACTORY " + (i + 1));
 
             System.out.print("\tName: ");
             String tmpName = scanner.nextLine();
@@ -165,27 +168,33 @@ public class Main {
 
             Address tmpAddress = new Address(tmpStreet, tmpHouseNumber, tmpCity, tmpPostalCode);
 
+            Item[] factoryItems = new Item[0];
+            if(items.length > 0){
+                System.out.println("\tEnter the number in front of the item that is produced in the factory, if the input is complete, enter 0");
 
-            System.out.println("\tEnter the number in front of the thing that is produced in the factory, if the input is complete, enter 0");
-             Item[] factoryItems = new Item[0];
-            int tmpItemNum;
-            do{
+                int tmpItemNum;
+                do {
 
-                for (int j = 0 ; j < items.length; j++){
-                    System.out.println((j+1) + ". " + items[j].getName());
-                }
+                    for (int j = 0; j < items.length; j++) {
+                        System.out.println((j + 1) + ". " + items[j].getName());
+                    }
 
-                tmpItemNum = scanner.nextInt();
-                scanner.nextLine();
+                    tmpItemNum = scanner.nextInt();
+                    scanner.nextLine();
 
-                if(tmpItemNum != 0){
+                    if (tmpItemNum != 0 && items.length > 0) {
 
-                    factoryItems= addItem(items[tmpItemNum - 1], factoryItems);
-                    items = removeItem(items, tmpItemNum);
-                }
+                        factoryItems = addItem(items[tmpItemNum - 1], factoryItems);
+                        items = removeItem(items, tmpItemNum);
+                    }
 
 
-            }while(tmpItemNum != 0);
+                } while (tmpItemNum != 0 && items.length > 0);
+            }
+            else{
+                System.out.println("\tThere is no items left to place in a factory");
+            }
+
 
             factories[i] = new Factory(tmpName, tmpAddress, factoryItems);
         }
@@ -194,12 +203,12 @@ public class Main {
     }
 
 
-    static Store[] setStores(Item[] items){
+    static Store[] setStores(Item[] items) {
         Store[] stores = new Store[NUM_STORES];
 
         System.out.println("INSERT STORES");
 
-        for ( int i = 0; i < NUM_STORES; i++) {
+        for (int i = 0; i < NUM_STORES; i++) {
 
             System.out.println("STORE " + (i + 1));
 
@@ -209,26 +218,34 @@ public class Main {
             System.out.print("\tE-mail address: ");
             String tmpEmailAddress = scanner.nextLine();
 
-
-            System.out.println("\tEnter the number in front of the thing that is sold in the store, if the input is complete, enter 0");
             Item[] storeItems = new Item[0];
-            int tmpItemNum;
-            do {
 
-                for (int j = 0; j < items.length; j++) {
-                    System.out.println((j + 1) + ". " + items[j].getName());
-                }
+            if(items.length > 0){
+                System.out.println("\tEnter the number in front of the thing that is sold in the store, if the input is complete, enter 0");
 
-                tmpItemNum = scanner.nextInt();
-                scanner.nextLine();
+                int tmpItemNum = 0;
+                do {
 
-                if (tmpItemNum != 0) {
+                    for (int j = 0; j < items.length; j++) {
+                        System.out.println((j + 1) + ". " + items[j].getName());
+                    }
 
-                    storeItems = addItem(items[tmpItemNum - 1], storeItems);
-                    items = removeItem(items, tmpItemNum);
-                }
+                    tmpItemNum = scanner.nextInt();
+                    scanner.nextLine();
 
-            } while (tmpItemNum != 0);
+                    if (tmpItemNum != 0 && items.length > 0) {
+
+                        storeItems = addItem(items[tmpItemNum - 1], storeItems);
+                        items = removeItem(items, tmpItemNum);
+                    }
+
+
+                } while (tmpItemNum != 0 && items.length > 0);
+            }
+            else{
+                System.out.println("\tThere is no items left to place in a store");
+            }
+
 
             stores[i] = new Store(tmpName, tmpEmailAddress, storeItems);
         }
@@ -236,17 +253,17 @@ public class Main {
         return stores;
     }
 
-    static Factory factoryWithTheBiggestVolumeItem(Factory[] factories){
+    static Factory factoryWithTheBiggestVolumeItem(Factory[] factories) {
 
         Factory tmpFactory = factories[0];
         BigDecimal tmpVolume = new BigDecimal(0);
 
-        for(int i = 0; i < NUM_FACTORIES; i++){
-            for(int j = 0; j < factories[i].getItems().length ; j++){
+        for (int i = 0; i < NUM_FACTORIES; i++) {
+            for (int j = 0; j < factories[i].getItems().length; j++) {
 
                 BigDecimal itemVolume = factories[i].getItems()[j].getHeight().multiply(factories[i].getItems()[j].getWidth().multiply(factories[i].getItems()[j].getLength()));
 
-                if(itemVolume.compareTo(tmpVolume) > 0){
+                if (itemVolume.compareTo(tmpVolume) > 0) {
                     tmpVolume = itemVolume;
                     tmpFactory = factories[i];
                 }
@@ -257,20 +274,19 @@ public class Main {
         return tmpFactory;
     }
 
-    static Store storeWithTheCheapestItem(Store[] stores){
+    static Store storeWithTheCheapestItem(Store[] stores) {
         Store tmpStore = stores[0];
         BigDecimal tmpPrice = new BigDecimal(100000);
 
-        for(int i = 0; i < NUM_STORES ; i++){
-            for(int j = 0; j < stores[i].getItems().length; j++){
-                if(tmpPrice.compareTo(stores[i].getItems()[j].getSellingPrice()) < 0){
+        for (int i = 0; i < NUM_STORES; i++) {
+            for (int j = 0; j < stores[i].getItems().length; j++) {
+                if (tmpPrice.compareTo(stores[i].getItems()[j].getSellingPrice()) < 0) {
                     tmpStore = stores[i];
                     tmpPrice = stores[i].getItems()[j].getSellingPrice();
                 }
             }
         }
-
         return tmpStore;
     }
-
 }
+
