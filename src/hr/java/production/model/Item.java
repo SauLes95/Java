@@ -8,10 +8,11 @@ public class Item extends NamedEntity {
     private BigDecimal height;
     private BigDecimal length;
     private BigDecimal productionCost;
-    private BigDecimal sellingPrice;
+    protected BigDecimal sellingPrice;
+    protected Discount discount;
 
 
-    public Item(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice) {
+    public Item(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount) {
         super(name);
         this.category = category;
         this.width = width;
@@ -19,6 +20,7 @@ public class Item extends NamedEntity {
         this.length = length;
         this.productionCost = productionCost;
         this.sellingPrice = sellingPrice;
+        this.discount = discount;
     }
 
 
@@ -68,5 +70,13 @@ public class Item extends NamedEntity {
 
     public void setSellingPrice(BigDecimal sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }
