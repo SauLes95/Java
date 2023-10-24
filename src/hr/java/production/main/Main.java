@@ -241,7 +241,12 @@ public class Main {
             System.out.print("\tPostal code: ");
             String tmpPostalCode = scanner.nextLine();
 
-            Address tmpAddress = new Address(tmpStreet, tmpHouseNumber, tmpCity, tmpPostalCode);
+            Address tmpAddress = new Address.Builder()
+                    .atStreet(tmpStreet)
+                    .withHouseNumber(tmpHouseNumber)
+                    .inCity(tmpCity)
+                    .withPostalCode(tmpPostalCode)
+                    .build();
 
             Item[] factoryItems = new Item[0];
             if(items.length > 0){
