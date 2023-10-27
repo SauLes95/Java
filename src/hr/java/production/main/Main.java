@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
         Category[] categories = setCategories();
         Item[] items = setItems(categories);
+
         Factory[] factories = setFactories(items);
         Store[] stores = setStores(items);
 
@@ -28,29 +29,25 @@ public class Main {
         System.out.println("Store  with the cheapest item is " + theCheapestStore.getName());
 
         Item mostCaloricItem = itemWithTheMostCalories(items);
-        if(mostCaloricItem instanceof Edible edible){
+        if (mostCaloricItem instanceof Edible edible) {
             System.out.println("The item with the most calories is " + mostCaloricItem.getName() + " containing " + edible.calculateKilocalories() + " calories");
-        }
-        else{
+        } else {
             System.out.println("There were no edible items");
         }
 
         Item mostExpenciveItem = theMostExpenciveItem(items);
-        if(mostCaloricItem instanceof Edible edible){
+        if (mostCaloricItem instanceof Edible edible) {
             System.out.println("The item with the biggest price is " + mostExpenciveItem.getName() + " costing " + edible.calculatePrice());
-        }
-        else{
+        } else {
             System.out.println("There were no edible items");
         }
 
         Item theShortestWarrantyLaptop = findTheLaptopWithTheShortestWarranty(items);
-        if(theShortestWarrantyLaptop instanceof Laptop laptop){
+        if (theShortestWarrantyLaptop instanceof Laptop laptop) {
             System.out.println("The item with the shortest warranty is " + theShortestWarrantyLaptop.getName());
-        }
-        else{
+        } else {
             System.out.println("There were no laptops in items");
         }
-
 
     }
 
@@ -170,7 +167,7 @@ public class Main {
             String tmpEdible = scanner.nextLine();
 
 
-            if(tmpEdible.equals("yes")){
+            if (tmpEdible.equals("yes")) {
 
                 System.out.print("\tWeight: ");
                 BigDecimal tmpWeight = scanner.nextBigDecimal();
@@ -179,14 +176,14 @@ public class Main {
                 System.out.println("If the item is  sweet type in sweet, or else type in salty");
                 String tmpSweetSaltyCheck = scanner.nextLine();
 
-                if (tmpSweetSaltyCheck.equals("sweet")){
-                    items[i]= new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                if (tmpSweetSaltyCheck.equals("sweet")) {
+                    items[i] = new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
 
-                }else if(tmpSweetSaltyCheck.equals("salty")){
-                    items[i]= new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                } else if (tmpSweetSaltyCheck.equals("salty")) {
+                    items[i] = new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
                 }
 
-                if(items[i] instanceof Edible edible){
+                if (items[i] instanceof Edible edible) {
                     System.out.println("\tTotal number of calories " + edible.calculateKilocalories());
                     System.out.println("\tTotal price of item " + edible.calculatePrice());
                 }
@@ -196,17 +193,16 @@ public class Main {
             }
 
 
-
             System.out.println("Is item technical, type yes for technical item or no for non technical item");
             String tmpTechnical = scanner.nextLine();
 
-            if(tmpTechnical.equals("yes")){
+            if (tmpTechnical.equals("yes")) {
 
                 System.out.print("\tWarranty: ");
                 Integer tmpWarranty = scanner.nextInt();
                 scanner.nextLine();
 
-                items[i]= new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty);
+                items[i] = new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty);
 
             } else if (tmpTechnical.equals("no")) {
                 items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
@@ -249,7 +245,7 @@ public class Main {
                     .build();
 
             Item[] factoryItems = new Item[0];
-            if(items.length > 0){
+            if (items.length > 0) {
                 System.out.println("\tEnter the number in front of the item that is produced in the factory, if the input is complete, enter 0");
 
                 int tmpItemNum;
@@ -269,8 +265,7 @@ public class Main {
                     }
 
                 } while (tmpItemNum != 0 && items.length > 0);
-            }
-            else{
+            } else {
                 System.out.println("\tThere is no items left to place in a factory");
             }
 
@@ -298,7 +293,7 @@ public class Main {
 
             Item[] storeItems = new Item[0];
 
-            if(items.length > 0){
+            if (items.length > 0) {
                 System.out.println("\tEnter the number in front of the thing that is sold in the store, if the input is complete, enter 0");
 
                 int tmpItemNum = 0;
@@ -319,8 +314,7 @@ public class Main {
 
 
                 } while (tmpItemNum != 0 && items.length > 0);
-            }
-            else{
+            } else {
                 System.out.println("\tThere is no items left to place in a store");
             }
 
@@ -367,13 +361,13 @@ public class Main {
         return tmpStore;
     }
 
-    static Item itemWithTheMostCalories (Item[] items){
+    static Item itemWithTheMostCalories(Item[] items) {
         Item tmpItem = items[0];
         int tmpMaxCalories = 0;
 
-        for(Item i : items){
-            if (i instanceof Edible edible){
-                if(edible.calculateKilocalories() > tmpMaxCalories){
+        for (Item i : items) {
+            if (i instanceof Edible edible) {
+                if (edible.calculateKilocalories() > tmpMaxCalories) {
                     tmpMaxCalories = edible.calculateKilocalories();
                     tmpItem = i;
                 }
@@ -383,13 +377,13 @@ public class Main {
         return tmpItem;
     }
 
-    static Item theMostExpenciveItem (Item[] items){
+    static Item theMostExpenciveItem(Item[] items) {
         Item tmpItem = items[0];
         int tmpMaxPrice = 0;
 
-        for(Item i : items){
-            if (i instanceof Edible edible){
-                if(edible.calculatePrice() > tmpMaxPrice){
+        for (Item i : items) {
+            if (i instanceof Edible edible) {
+                if (edible.calculatePrice() > tmpMaxPrice) {
                     tmpMaxPrice = edible.calculateKilocalories();
                     tmpItem = i;
                 }
@@ -399,13 +393,13 @@ public class Main {
         return tmpItem;
     }
 
-    static Item findTheLaptopWithTheShortestWarranty(Item[] items){
+    static Item findTheLaptopWithTheShortestWarranty(Item[] items) {
         Item tmpItem = items[0];
         int warranty = 0;
 
-        for(Item i : items){
-            if (i instanceof Laptop laptop){
-                if(laptop.warrantyDuration() > warranty){
+        for (Item i : items) {
+            if (i instanceof Laptop laptop) {
+                if (laptop.warrantyDuration() > warranty) {
                     warranty = laptop.warrantyDuration();
                     tmpItem = i;
                 }
@@ -415,4 +409,3 @@ public class Main {
         return tmpItem;
     }
 }
-
