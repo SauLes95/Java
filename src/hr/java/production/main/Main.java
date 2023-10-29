@@ -212,6 +212,8 @@ public class Main {
         return items;
     }
 
+
+
     static Factory[] setFactories(Item[] items) {
 
         Factory[] factories = new Factory[NUM_FACTORIES];
