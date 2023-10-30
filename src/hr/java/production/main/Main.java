@@ -131,6 +131,7 @@ public class Main {
         System.out.println("INSERT CATEGORIES");
         for (int i = 0; i < NUM_CATEGORIES; i++) {
 
+
             System.out.println("CATEGORY " + (i + 1));
             System.out.print("\tName: ");
             String tmpName = scanner.nextLine();
@@ -141,14 +142,14 @@ public class Main {
             Category tmpCategory = new Category(tmpName, tmpDescription);
 
 
-            try{
-                if(!categoryDuplicateCheck(categories, tmpCategory)){
-                    categories[i]=tmpCategory;
+                try{
+                    if(!categoryDuplicateCheck(categories, tmpCategory, i)){
+                        categories[i]=tmpCategory;
+                    }
+                }catch (DuplicateCategoryException e){
+                    System.out.println("Error! Duplicate category " + e.getMessage());
+                    logger.info(e.getMessage());
                 }
-            }catch (DuplicateCategoryException e){
-                System.out.println("Error! Duplicate category " + e.getMessage());
-                logger.info(e.getMessage());
-            }
 
         }
 
@@ -314,7 +315,7 @@ public class Main {
                 tmpItemNum = intManipulation(scanner);
 
                 try{
-                    if(!itemDuplicateCheck(factoryItems, items[tmpItemNum - 1])){
+                    if(!itemDuplicateCheck(factoryItems, items[tmpItemNum - 1], i)){
                         factoryItems = addItem(items[tmpItemNum - 1], factoryItems);
                     }
                     else{
@@ -373,7 +374,7 @@ public class Main {
                     if (tmpItemNum != 0) {
 
                         try{
-                            if(!itemDuplicateCheck(storeItems, items[tmpItemNum - 1])){
+                            if(!itemDuplicateCheck(storeItems, items[tmpItemNum - 1], i)){
                                 storeItems = addItem(items[tmpItemNum - 1], storeItems);
                             }
                             else{
@@ -572,10 +573,10 @@ public class Main {
      * @param item Artikal koji se provjerava na duplikate.
      * @return True ako artikal već postoji u nizu, inače false.
      */
-    static boolean itemDuplicateCheck(Item[] items, Item item){
+    static boolean itemDuplicateCheck(Item[] items, Item item, int length){
         boolean check = false;
 
-        for(int i = 0; i < items.length; i++){
+        for(int i = 0; i < length; i++){
             if(items[i].equals(item)){
                 check = true;
                 break;
@@ -591,10 +592,10 @@ public class Main {
      * @param category Kategorija koja se provjerava na duplikate.
      * @return True ako kategorija već postoji u nizu, inače false.
      */
-    static boolean categoryDuplicateCheck(Category[] categories, Category category){
+    static boolean categoryDuplicateCheck(Category[] categories, Category category, int length){
         boolean check = false;
 
-        for(int i = 0 ; i < categories.length; i++){
+        for(int i = 0 ; i < length; i++){
             if(categories[i].equals(category)){
                 check = true;
                 break;
