@@ -2,6 +2,10 @@ package hr.java.production.model;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja proizvod u sustavu proizvodnje.
+ * Svaki proizvod ima svoje svojstva, uključujući cijenu, dimenzije i kategoriju.
+ */
 public class Item extends NamedEntity {
     private Category category;
     private BigDecimal width;
@@ -12,6 +16,18 @@ public class Item extends NamedEntity {
     protected Discount discount;
 
 
+    /**
+     * Konstruktor za stvaranje instance klase Item.
+     *
+     * @param name            Ime predmeta.
+     * @param category        Kategorija predmeta.
+     * @param width           Širina predmeta.
+     * @param height          Visina predmeta.
+     * @param length          Duljina predmeta.
+     * @param productionCost  Trošak proizvodnje predmeta.
+     * @param sellingPrice    Cijena prodaje predmeta.
+     * @param discount        Popust na predmet.
+     */
     public Item(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount) {
         super(name);
         this.category = category;

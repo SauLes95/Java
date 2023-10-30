@@ -1,5 +1,8 @@
 package hr.java.production.model;
 
+/**
+ * Predstavlja adresu u sustavu proizvodnje. Adresa se sastoji od naziva ulice, kućnog broja, grada i poštanskog broja.
+ */
 public class Address {
 
     private String street;
@@ -8,29 +11,64 @@ public class Address {
     private String postalCode;
 
     private Address(){}
-    public static class Builder{
+
+    /**
+     * Unutarnja klasa koja omogućava izgradnju objekta klase {@link Address}.
+     * Ova klasa omogućava postavljanje vrijednosti za adrese koristeći različite metode.
+     */
+    public static class Builder {
         private String street, houseNumber, city, postalCode;
-        public Builder atStreet(String street){
-          this.street = street;
-          return this;
+
+        /**
+         * Postavlja naziv ulice adrese.
+         *
+         * @param street Naziv ulice.
+         * @return Trenutna instanca Builder objekta.
+         */
+        public Builder atStreet(String street) {
+            this.street = street;
+            return this;
         }
 
-        public Builder withHouseNumber(String houseNumber){
+        /**
+         * Postavlja kućni broj adrese.
+         *
+         * @param houseNumber Kućni broj.
+         * @return Trenutna instanca Builder objekta.
+         */
+        public Builder withHouseNumber(String houseNumber) {
             this.houseNumber = houseNumber;
             return this;
         }
 
-        public Builder inCity(String city){
+        /**
+         * Postavlja grad adrese.
+         *
+         * @param city Grad.
+         * @return Trenutna instanca Builder objekta.
+         */
+        public Builder inCity(String city) {
             this.city = city;
             return this;
         }
 
-        public Builder withPostalCode(String postalCode){
+        /**
+         * Postavlja poštanski broj adrese.
+         *
+         * @param postalCode Poštanski broj.
+         * @return Trenutna instanca Builder objekta.
+         */
+        public Builder withPostalCode(String postalCode) {
             this.postalCode = postalCode;
             return this;
         }
 
-        public Address build(){
+        /**
+         * Izgrađuje i vraća instancu objekta klase {@link Address} s postavljenim vrijednostima.
+         *
+         * @return Instanca objekta klase {@link Address} s postavljenim vrijednostima.
+         */
+        public Address build() {
             Address address = new Address();
             address.street = this.street;
             address.houseNumber = this.houseNumber;
@@ -39,6 +77,7 @@ public class Address {
             return address;
         }
     }
+
 
 
     public String getStreet() {
@@ -74,6 +113,11 @@ public class Address {
     }
 
 
+    /**
+     * Vraća niz koji predstavlja ovaj objekt adrese.
+     *
+     * @return Niz koji sadrži ulicu, kućni broj, grad i poštanski broj adrese.
+     */
     @Override
     public String toString(){
         return "Address : " +

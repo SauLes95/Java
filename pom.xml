@@ -8,10 +8,21 @@
     <artifactId>Sestak-1</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+    <dependencies>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.11</version>
+        </dependency>
+    </dependencies>
+
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
 
 </project>
