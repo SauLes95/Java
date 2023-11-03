@@ -1,5 +1,7 @@
 package hr.java.production.exception;
 
+import hr.java.production.model.Category;
+
 /**
  * Izuzetak koji označava da je došlo do pokušaja dodavanja duplikata kategorije.
  */
@@ -31,4 +33,6 @@ public class DuplicateCategoryException extends RuntimeException {
     public DuplicateCategoryException(String message, Throwable cause) {
         super(message, cause);
     }
+
+
 }

@@ -1,5 +1,7 @@
 package hr.java.production.model;
 
+import java.util.Objects;
+
 /**
  * Predstavlja kategoriju predmeta u sustavu proizvodnje.
  * Svaka kategorija ima svoje ime i opis.
@@ -27,4 +29,30 @@ public class Category extends NamedEntity{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object tmpObject) {
+        if (this == tmpObject) {
+            return true;
+        }
+        if (tmpObject == null || getClass() != tmpObject.getClass()) {
+            return false;
+        }
+
+        Category tmpCategory = (Category) tmpObject;
+
+        return Objects.equals(getDescription(), tmpCategory.getDescription());
+    }
+
+
+    /**
+     * Returns a hash code value for the object. This method is supported for the benefit of hash tables such as those provided by {@code HashMap}.
+     *
+     * @return A hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getDescription());
+    }
+
 }

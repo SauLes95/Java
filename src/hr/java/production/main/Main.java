@@ -1,7 +1,6 @@
 package hr.java.production.main;
 
-import hr.java.production.exception.DuplicateCategoryException;
-import hr.java.production.exception.DuplicateItemException;
+import hr.java.production.exception.*;
 import hr.java.production.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,23 +132,31 @@ public class Main {
 
 
             System.out.println("CATEGORY " + (i + 1));
-            System.out.print("\tName: ");
-            String tmpName = scanner.nextLine();
 
-            System.out.print("\tDescription: ");
-            String tmpDescription = scanner.nextLine();
+            Category tmpCategory = new Category("tmpName", "tmpDescription");
 
-            Category tmpCategory = new Category(tmpName, tmpDescription);
+            do{
+                System.out.print("\tName: ");
+                String tmpName = scanner.nextLine();
 
+                System.out.print("\tDescription: ");
+                String tmpDescription = scanner.nextLine();
+
+                tmpCategory = new Category(tmpName, tmpDescription);
 
                 try{
                     if(!categoryDuplicateCheck(categories, tmpCategory, i)){
                         categories[i]=tmpCategory;
+                    }else{
+                        throw new DuplicateCategoryException("Duplicate category was added by the user");
                     }
                 }catch (DuplicateCategoryException e){
-                    System.out.println("Error! Duplicate category " + e.getMessage());
-                    logger.info(e.getMessage());
+                    System.out.println("Error! Duplicate category was added. Enter new category name and description");
+                    logger.info(e.getMessage(), e);
                 }
+
+            } while(categoryDuplicateCheck(categories, tmpCategory, i));
+
 
         }
 
@@ -215,49 +222,91 @@ public class Main {
 
 
             System.out.println("Is item edible, type yes for edible item or no for non edible item");
-            String tmpEdible = scanner.nextLine();
+            String tmpEdible = "tmpEdible";
 
 
-            if (tmpEdible.equals("yes")) {
+            do{
+                tmpEdible = scanner.nextLine();
 
-                System.out.print("\tWeight: ");
-                BigDecimal tmpWeight = scanner.nextBigDecimal();
-                scanner.nextLine();
+                try{
+                    if (tmpEdible.equals("yes")) {
 
-                System.out.println("If the item is  sweet type in sweet, or else type in salty");
-                String tmpSweetSaltyCheck = scanner.nextLine();
+                        System.out.print("\tWeight: ");
+                        BigDecimal tmpWeight = bigDecimalManipulation(scanner);
 
-                if (tmpSweetSaltyCheck.equals("sweet")) {
-                    items[i] = new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                        System.out.println("If the item is  sweet type in sweet, or else type in salty");
+                        String tmpSweetSaltyCheck = "tmpSweetSaltyCheck";
 
-                } else if (tmpSweetSaltyCheck.equals("salty")) {
-                    items[i] = new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                        do{
+
+                            tmpSweetSaltyCheck = scanner.nextLine();
+
+                            try{
+                                if (tmpSweetSaltyCheck.equals("sweet")) {
+                                    items[i] = new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+
+                                } else if (tmpSweetSaltyCheck.equals("salty")) {
+                                    items[i] = new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                                }else {
+                                    throw new SweetSaltyException("User input was neither sweet nor salty");
+                                }
+                                if (items[i] instanceof Edible edible) {
+                                    System.out.println("\tTotal number of calories " + edible.calculateKilocalories());
+                                    System.out.println("\tTotal price of item " + edible.calculatePrice());
+                                }
+                            }catch(SweetSaltyException e){
+                                System.out.println("You entered wrong input, type i either sweet or salty!");
+                                logger.info(e.getMessage(), e);
+                            }
+                        }while(!tmpSweetSaltyCheck.equals("sweet") && !tmpSweetSaltyCheck.equals("salty"));
+
+
+                    } else if (tmpEdible.equals("no")) {
+                        items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
+                    }
+                    else{
+                        throw new YesNoOptionException("User input was neither yes nor no");
+                    }
+
+                }catch(YesNoOptionException e){
+                    System.out.println("Error! Enter either 'yes' or 'no'");
+                    logger.info(e.getMessage(), e);
                 }
 
-                if (items[i] instanceof Edible edible) {
-                    System.out.println("\tTotal number of calories " + edible.calculateKilocalories());
-                    System.out.println("\tTotal price of item " + edible.calculatePrice());
-                }
+            }while(!tmpEdible.equals("yes") && !tmpEdible.equals("no"));
 
-            } else if (tmpEdible.equals("no")) {
-                items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
+
+
+            if(tmpEdible.equals("no")){
+                System.out.println("Is item technical, type yes for technical item or no for non technical item");
+                String tmpTechnical = "tmpTechnical";
+
+                do{
+
+                    tmpTechnical = scanner.nextLine();
+
+                    try{
+                        if (tmpTechnical.equals("yes")) {
+
+                            System.out.print("\tWarranty: ");
+                            Integer tmpWarranty = intManipulation(scanner);
+
+                            items[i] = new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty);
+
+                        } else if (tmpTechnical.equals("no")) {
+                            items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
+                        }else{
+                            throw new YesNoOptionException("User input was neither yes nor no");
+                        }
+                    }catch(YesNoOptionException e){
+                        System.out.println("Error! Enter either 'yes' or 'no'");
+                        logger.info(e.getMessage(), e);
+                    }
+
+
+                }while (!tmpTechnical.equals("yes") && !tmpTechnical.equals("no"));
             }
 
-
-            System.out.println("Is item technical, type yes for technical item or no for non technical item");
-            String tmpTechnical = scanner.nextLine();
-
-            if (tmpTechnical.equals("yes")) {
-
-                System.out.print("\tWarranty: ");
-                Integer tmpWarranty = scanner.nextInt();
-                scanner.nextLine();
-
-                items[i] = new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty);
-
-            } else if (tmpTechnical.equals("no")) {
-                items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
-            }
 
         }
         return items;
@@ -294,6 +343,22 @@ public class Main {
             System.out.print("\tPostal code: ");
             String tmpPostalCode = scanner.nextLine();
 
+
+            do{
+                try{
+                    if(!stringNumberCheck(tmpPostalCode)){
+                        tmpPostalCode=postalCodeCheck(tmpPostalCode);
+                    }else{
+                        throw new PostalCodeException("Error! postal code was not made from numbers, enter postal code made from numbers");
+                    }
+                }catch (PostalCodeException e){
+                    System.out.println();
+                    logger.error(e.getMessage());
+                }
+
+            }while(!stringNumberCheck(tmpPostalCode));
+
+
             Address tmpAddress = new Address.Builder()
                     .atStreet(tmpStreet)
                     .withHouseNumber(tmpHouseNumber)
@@ -315,15 +380,10 @@ public class Main {
                 tmpItemNum = intManipulation(scanner);
 
                 try{
-                    if(!itemDuplicateCheck(factoryItems, items[tmpItemNum - 1], i)){
-                        factoryItems = addItem(items[tmpItemNum - 1], factoryItems);
-                    }
-                    else{
-                        throw new DuplicateItemException("Item was already added in factory");
-                    }
+                    factoryItems = checkDuplicate(items, factoryItems, tmpItemNum, i);
                 }catch (DuplicateItemException e){
-                    System.out.println("Error" + e.getMessage());
-                    logger.info(e.getMessage());
+                    System.out.println("Item can be added in the factory only one time, add item that was not previously added in the factory!");
+                    logger.error(e.getMessage(), e);
                 }
 
             } while (tmpItemNum != 0);
@@ -333,6 +393,16 @@ public class Main {
         }
 
         return factories;
+    }
+
+    private static Item[] checkDuplicate(Item[] items, Item[] factoryItems, int tmpItemNum, int i) throws DuplicateItemException {
+        if(!itemDuplicateCheck(factoryItems, items[tmpItemNum - 1], i)){
+            factoryItems = addItem(items[tmpItemNum - 1], factoryItems);
+        }
+        else{
+            throw new DuplicateItemException("User added the same item twice");
+        }
+        return factoryItems;
     }
 
 
@@ -374,15 +444,10 @@ public class Main {
                     if (tmpItemNum != 0) {
 
                         try{
-                            if(!itemDuplicateCheck(storeItems, items[tmpItemNum - 1], i)){
-                                storeItems = addItem(items[tmpItemNum - 1], storeItems);
-                            }
-                            else{
-                                throw new DuplicateItemException("Item was already added in factory");
-                            }
+                            storeItems = checkDuplicate(items, storeItems, tmpItemNum, i);
                         }catch (DuplicateItemException e){
-                            System.out.println("Error" + e.getMessage());
-                            logger.info(e.getMessage());
+                            System.out.println("Error! Postal code needs to consist of numbers");
+                            logger.error(e.getMessage(), e);
                         }
 
                     }
@@ -529,10 +594,11 @@ public class Main {
             error = false;
             try{
                 intNum = scanner.nextInt();
+
             }
             catch(InputMismatchException e){
                 System.out.println("\tInput needs to be a number!");
-                logger.info(e.getMessage());
+                logger.error("Input was not an integer", e);
                 error = true;
             }
             scanner.nextLine();
@@ -557,7 +623,7 @@ public class Main {
             }
             catch(InputMismatchException e){
                 System.out.println("\tInput needs to be a number!");
-                logger.info(e.getMessage());
+                logger.info("Input was not a big decimal", e);
                 error = true;
             }
             scanner.nextLine();
@@ -593,15 +659,40 @@ public class Main {
      * @return True ako kategorija već postoji u nizu, inače false.
      */
     static boolean categoryDuplicateCheck(Category[] categories, Category category, int length){
-        boolean check = false;
 
         for(int i = 0 ; i < length; i++){
             if(categories[i].equals(category)){
-                check = true;
-                break;
+                return true;
             }
         }
 
-        return check;
+        return false;
     }
+
+
+    /**
+     * Provjerava da li je niz znakova sastavljen isključivo od decimalnih brojeva.
+     *
+     * @param string Niz znakova koji se provjerava.
+     * @return true ako je niz sastavljen isključivo od decimalnih brojeva, inače false.
+     */
+    static boolean stringNumberCheck(String string){
+        return string.matches("^[0-9]*$");
+    }
+
+    /**
+     * Provjerava da li je niz znakova ispravan poštanski broj.
+     *
+     * @param tmpstring Niz znakova koji predstavlja poštanski broj.
+     * @return Ispravan poštanski broj.
+     * @throws PostalCodeException Ako poštanski broj nije ispravno formatiran.
+     */
+    static String postalCodeCheck(String tmpstring) throws PostalCodeException{
+        if (!stringNumberCheck(tmpstring)) {
+            throw new PostalCodeException("User input wrong, postal code was not made from numbers");
+        }
+        return tmpstring;
+    }
+
 }
+

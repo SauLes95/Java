@@ -95,4 +95,6 @@ public class Item extends NamedEntity {
     public void setDiscount(Discount discount) {
         this.discount = discount;
     }
+
+
 }
