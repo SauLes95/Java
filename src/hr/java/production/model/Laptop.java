@@ -1,6 +1,7 @@
 package hr.java.production.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja laptop.
@@ -35,6 +36,10 @@ public non-sealed class Laptop extends Item implements Technical {
         this.warrantyDuration = warrantyDuration;
     }
 
+    public Integer getWarrantyDuration() {
+        return warrantyDuration;
+    }
+
     /**
      * Vraća trajanje jamstva za laptop.
      *
@@ -43,6 +48,22 @@ public non-sealed class Laptop extends Item implements Technical {
     @Override
     public Integer warrantyDuration() {
         return warrantyDuration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Laptop laptop = (Laptop) o;
+
+        return Objects.equals(getWarrantyDuration(), laptop.getWarrantyDuration());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getWarrantyDuration());
     }
 }
 

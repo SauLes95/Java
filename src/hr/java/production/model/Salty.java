@@ -1,6 +1,7 @@
 package hr.java.production.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Konkretna klasa koja predstavlja slani proizvod.
@@ -60,6 +61,22 @@ public class Salty extends Item implements Edible {
         double price = weight.multiply(sellingPrice).doubleValue();
         double tmpDiscount = price * discount.discountAmount() / 100;
         return (price - tmpDiscount);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Salty salty = (Salty) o;
+
+        return Objects.equals(getWeight(), salty.getWeight());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getWeight());
     }
 
 }

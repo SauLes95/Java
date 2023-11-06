@@ -1,5 +1,6 @@
 package hr.java.production.model;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -36,5 +37,28 @@ public class Store extends NamedEntity {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object tmpObject) {
+        if (this == tmpObject) {
+            return true;
+        }
+        if (tmpObject == null || getClass() != tmpObject.getClass()) {
+            return false;
+        }
+        if (!super.equals(tmpObject)) {
+            return false;
+        }
+
+        Store tmpStore = (Store) tmpObject;
+
+        return Objects.equals(getWebAddress(), tmpStore.getWebAddress()) &&
+                Objects.equals(getItems(), tmpStore.getItems());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getWebAddress(), getItems());
     }
 }

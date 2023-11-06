@@ -1,6 +1,7 @@
 package hr.java.production.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Predstavlja proizvod u sustavu proizvodnje.
@@ -97,4 +98,31 @@ public class Item extends NamedEntity {
     }
 
 
+    @Override
+    public boolean equals(Object tmpObject) {
+        if (this == tmpObject) {
+            return true;
+        }
+        if (tmpObject == null || getClass() != tmpObject.getClass()) {
+            return false;
+        }
+        if (!super.equals(tmpObject)) {
+            return false;
+        }
+
+        Item tmpItem = (Item) tmpObject;
+
+        return Objects.equals(category, tmpItem.category) &&
+                Objects.equals(width, tmpItem.width) &&
+                Objects.equals(height, tmpItem.height) &&
+                Objects.equals(length, tmpItem.length) &&
+                Objects.equals(productionCost, tmpItem.productionCost) &&
+                Objects.equals(sellingPrice, tmpItem.sellingPrice) &&
+                Objects.equals(discount, tmpItem.discount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), category, width, height, length, productionCost, sellingPrice, discount);
+    }
 }

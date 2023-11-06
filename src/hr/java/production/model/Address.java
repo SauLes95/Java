@@ -1,5 +1,7 @@
 package hr.java.production.model;
 
+import java.util.Objects;
+
 /**
  * Predstavlja adresu u sustavu proizvodnje. Adresa se sastoji od naziva ulice, kućnog broja, grada i poštanskog broja.
  */
@@ -126,4 +128,28 @@ public class Address {
                 "city : " + city + ", " +
                 "zip code : " + postalCode;
     }
+
+    @Override
+    public boolean equals(Object tmpObject){
+        if(this == tmpObject){
+            return true;
+        }
+
+        if (tmpObject == null || getClass() != tmpObject.getClass()){
+            return false;
+        }
+
+        Address tmpAddress = (Address) tmpObject;
+
+        return Objects.equals(getStreet(), tmpAddress.getStreet()) &&
+                Objects.equals(getHouseNumber(), tmpAddress.getHouseNumber()) &&
+                Objects.equals(getCity(), tmpAddress.getCity()) &&
+                Objects.equals(getPostalCode(), tmpAddress.getPostalCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStreet(), getHouseNumber(), getCity(), getPostalCode());
+    }
+
 }

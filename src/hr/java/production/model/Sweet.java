@@ -1,6 +1,7 @@
 package hr.java.production.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja slatki proizvod u sustavu proizvodnje.
@@ -56,5 +57,21 @@ public class Sweet extends Item implements Edible {
         double price = weight.multiply(sellingPrice).doubleValue();
         double tmpDiscount = price * discount.discountAmount() / 100;
         return (price - tmpDiscount);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Sweet sweet = (Sweet) o;
+
+        return Objects.equals(getWeight(), sweet.getWeight());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getWeight());
     }
 }

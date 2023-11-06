@@ -1,6 +1,7 @@
 package hr.java.production.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -40,5 +41,29 @@ public class Factory extends NamedEntity{
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object tmpObject) {
+        if (this == tmpObject) {
+            return true;
+        }
+        if (tmpObject == null || getClass() != tmpObject.getClass()) {
+            return false;
+        }
+        if (!super.equals(tmpObject)) {
+            return false;
+        }
+
+        Factory tmpFactory = (Factory) tmpObject;
+
+        return Objects.equals(getAddress(), tmpFactory.getAddress()) &&
+                Objects.equals(getItems(), tmpFactory.getItems());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getAddress(), getItems());
     }
 }

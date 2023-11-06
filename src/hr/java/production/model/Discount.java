@@ -1,5 +1,7 @@
 package hr.java.production.model;
 
+import java.util.Objects;
+
 /**
  * Predstavlja popust na cijenu proizvoda ili usluge.
  *
@@ -8,4 +10,24 @@ package hr.java.production.model;
  * @param discountAmount Iznos popusta izražen kao cjelobrojna vrijednost.
  */
 public record Discount(Integer discountAmount) {
+
+    @Override
+    public boolean equals(Object tmpObject) {
+        if (this == tmpObject) {
+            return true;
+        }
+        if (tmpObject == null || getClass() != tmpObject.getClass()) {
+            return false;
+        }
+
+        Discount tmpDiscount = (Discount) tmpObject;
+
+        return Objects.equals(discountAmount, tmpDiscount.discountAmount);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(discountAmount);
+    }
 }
