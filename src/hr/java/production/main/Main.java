@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -17,15 +16,15 @@ public class Main {
     private static final int NUM_STORES = 2;
 
     private static Scanner scanner = new Scanner(System.in);
-
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Category[] categories = setCategories();
-        Item[] items = setItems(categories);
+        logger.info("Application started");
 
-        Factory[] factories = setFactories(items);
-        Store[] stores = setStores(items);
+        List<Category> categories = setCategories();
+        List<Item> items = setItems(categories);
+        List<Factory> factories = setFactories(items);
+        List<Store> stores = setStores(items);
 
         Factory theBiggestVolumeFactory = factoryWithTheBiggestVolumeItem(factories);
         System.out.println("Factory with the item that has biggest volume is " + theBiggestVolumeFactory.getName());
@@ -124,18 +123,16 @@ public class Main {
      *
      * @return Niz kategorija koje su unesene.
      */
-    static Category[] setCategories() {
-        Category[] categories = new Category[NUM_CATEGORIES];
+    static List<Category> setCategories() {
+        ArrayList<Category> categories = new ArrayList<>();
 
         System.out.println("INSERT CATEGORIES");
         for (int i = 0; i < NUM_CATEGORIES; i++) {
-
-
             System.out.println("CATEGORY " + (i + 1));
 
-            Category tmpCategory = new Category("tmpName", "tmpDescription");
-
-            do{
+            Category tmpCategory;
+            boolean check = true;
+            do {
                 System.out.print("\tName: ");
                 String tmpName = scanner.nextLine();
 
@@ -144,24 +141,23 @@ public class Main {
 
                 tmpCategory = new Category(tmpName, tmpDescription);
 
-                try{
-                    if(!categoryDuplicateCheck(categories, tmpCategory, i)){
-                        categories[i]=tmpCategory;
-                    }else{
+                try {
+                    if (!categoryDuplicateCheck(categories, tmpCategory)) {
+                        categories.add(tmpCategory);
+                        check = false;
+                    } else {
                         throw new DuplicateCategoryException("Duplicate category was added by the user");
                     }
-                }catch (DuplicateCategoryException e){
+                } catch (DuplicateCategoryException e) {
                     System.out.println("Error! Duplicate category was added. Enter new category name and description");
                     logger.info(e.getMessage(), e);
                 }
-
-            } while(categoryDuplicateCheck(categories, tmpCategory, i));
-
-
+            } while (check);
         }
 
         return categories;
     }
+
 
     /**
      * Unosi i postavlja artikle u niz artikala.
@@ -169,8 +165,8 @@ public class Main {
      * @param categories Niz kategorija iz kojih korisnik bira kategorije za artikle.
      * @return Niz artikala koji su uneseni.
      */
-    static Item[] setItems(Category[] categories) {
-        Item[] items = new Item[NUM_ITEMS];
+    static List<Item> setItems(List<Category> categories) {
+        ArrayList<Item> items = new ArrayList<>();
 
         System.out.println("INSERT ITEMS");
         for (int i = 0; i < NUM_ITEMS; i++) {
@@ -185,7 +181,7 @@ public class Main {
 
                 System.out.println("\tEnter the number of the category to which the item belongs to: ");
                 for (int j = 0; j < NUM_CATEGORIES; j++) {
-                    System.out.println("\t" + (j + 1) + ". " + categories[j].getName());
+                    System.out.println("\t" + (j + 1) + ". " + categories.get(j).getName());
                 }
 
                 categoryNumber = intManipulation(scanner);
@@ -197,7 +193,7 @@ public class Main {
             } while (categoryNumber < 1 || categoryNumber > NUM_CATEGORIES);
 
 
-            Category tmpCategory = categories[categoryNumber - 1];
+            Category tmpCategory = categories.get(categoryNumber - 1);
 
             System.out.print("\tWidth: ");
             BigDecimal tmpWidth = bigDecimalManipulation(scanner);
@@ -243,14 +239,14 @@ public class Main {
 
                             try{
                                 if (tmpSweetSaltyCheck.equals("sweet")) {
-                                    items[i] = new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                                    items.add(new Salty(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight));
 
                                 } else if (tmpSweetSaltyCheck.equals("salty")) {
-                                    items[i] = new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight);
+                                    items.add(new Sweet(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWeight));
                                 }else {
                                     throw new SweetSaltyException("User input was neither sweet nor salty");
                                 }
-                                if (items[i] instanceof Edible edible) {
+                                if (items.getLast() instanceof Edible edible) {
                                     System.out.println("\tTotal number of calories " + edible.calculateKilocalories());
                                     System.out.println("\tTotal price of item " + edible.calculatePrice());
                                 }
@@ -261,9 +257,7 @@ public class Main {
                         }while(!tmpSweetSaltyCheck.equals("sweet") && !tmpSweetSaltyCheck.equals("salty"));
 
 
-                    } else if (tmpEdible.equals("no")) {
-                        items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
-                    }
+                    } else if (tmpEdible.equals("no")) {}
                     else{
                         throw new YesNoOptionException("User input was neither yes nor no");
                     }
@@ -291,10 +285,10 @@ public class Main {
                             System.out.print("\tWarranty: ");
                             Integer tmpWarranty = intManipulation(scanner);
 
-                            items[i] = new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty);
+                            items.add( new Laptop(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount, tmpWarranty));
 
                         } else if (tmpTechnical.equals("no")) {
-                            items[i] = new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount);
+                            items.add(new Item(tmpName, tmpCategory, tmpWidth, tmpHeight, tmpLength, tmpProductionCost, tmpSellingPrice, tmpDiscount));
                         }else{
                             throw new YesNoOptionException("User input was neither yes nor no");
                         }
@@ -318,9 +312,9 @@ public class Main {
      * @param items Niz dostupnih artikala koji se mogu proizvoditi u tvornicama.
      * @return Niz tvornica koje su unesene.
      */
-    static Factory[] setFactories(Item[] items) {
+    static List<Factory> setFactories(List<Item> items) {
 
-        Factory[] factories = new Factory[NUM_FACTORIES];
+        ArrayList<Factory> factories = new ArrayList<>();
 
         System.out.println("INSERT FACTORIES");
 
@@ -340,23 +334,25 @@ public class Main {
             System.out.print("\tCity: ");
             String tmpCity = scanner.nextLine();
 
-            System.out.print("\tPostal code: ");
-            String tmpPostalCode = scanner.nextLine();
 
-
+            boolean check = true;
+            String tmpPostalCode = "tmppostalcode";
             do{
+                System.out.print("\tPostal code: ");
+                tmpPostalCode = scanner.nextLine();
+
                 try{
-                    if(!stringNumberCheck(tmpPostalCode)){
+                    if(stringNumberCheck(tmpPostalCode)){
                         tmpPostalCode=postalCodeCheck(tmpPostalCode);
-                    }else{
-                        throw new PostalCodeException("Error! postal code was not made from numbers, enter postal code made from numbers");
+
                     }
                 }catch (PostalCodeException e){
-                    System.out.println();
+                    System.out.println("Enter postal code that is made from numbers!");
                     logger.error(e.getMessage());
                 }
 
-            }while(!stringNumberCheck(tmpPostalCode));
+                check = stringNumberCheck(tmpPostalCode);
+            }while(check);
 
 
             Address tmpAddress = new Address.Builder()
@@ -366,21 +362,21 @@ public class Main {
                     .withPostalCode(tmpPostalCode)
                     .build();
 
-            Item[] factoryItems = new Item[0];
+            Set<Item> factoryItems = new HashSet<>();
 
             System.out.println("\tEnter the number in front of the item that is produced in the factory, if the input is complete, enter 0");
 
             int tmpItemNum;
             do {
 
-                for (int j = 0; j < items.length; j++) {
-                    System.out.println((j + 1) + ". " + items[j].getName());
+                for (int j = 0; j < items.size(); j++) {
+                    System.out.println((j + 1) + ". " + items.get(j).getName());
                 }
 
                 tmpItemNum = intManipulation(scanner);
 
                 try{
-                    factoryItems = checkDuplicate(items, factoryItems, tmpItemNum, i);
+                    factoryItems = checkDuplicate(items, factoryItems, tmpItemNum);
                 }catch (DuplicateItemException e){
                     System.out.println("Item can be added in the factory only one time, add item that was not previously added in the factory!");
                     logger.error(e.getMessage(), e);
@@ -389,15 +385,15 @@ public class Main {
             } while (tmpItemNum != 0);
 
 
-            factories[i] = new Factory(tmpName, tmpAddress, factoryItems);
+            factories.add(new Factory(tmpName, tmpAddress, factoryItems));
         }
 
         return factories;
     }
 
-    private static Item[] checkDuplicate(Item[] items, Item[] factoryItems, int tmpItemNum, int i) throws DuplicateItemException {
-        if(!itemDuplicateCheck(factoryItems, items[tmpItemNum - 1], i)){
-            factoryItems = addItem(items[tmpItemNum - 1], factoryItems);
+    private static Set<Item> checkDuplicate(List<Item> items, Set<Item> factoryItems, int tmpItemNum) throws DuplicateItemException {
+        if(!factoryItemDuplicateCheck(factoryItems, items.get(tmpItemNum - 1))){
+            factoryItems.add(items.get(tmpItemNum-1));
         }
         else{
             throw new DuplicateItemException("User added the same item twice");
@@ -412,8 +408,8 @@ public class Main {
      * @param items Niz dostupnih artikala koji se mogu prodavati u prodavaonicama.
      * @return Niz prodavaonica koje su unesene.
      */
-    static Store[] setStores(Item[] items) {
-        Store[] stores = new Store[NUM_STORES];
+    static List<Store> setStores(List<Item> items) {
+        ArrayList<Store> stores= new ArrayList<>();
 
         System.out.println("INSERT STORES");
 
@@ -427,16 +423,16 @@ public class Main {
             System.out.print("\tE-mail address: ");
             String tmpEmailAddress = scanner.nextLine();
 
-            Item[] storeItems = new Item[0];
+            Set<Item> storeItems = new HashSet<>();
 
-            if (items.length > 0) {
+            if (!items.isEmpty()) {
                 System.out.println("\tEnter the number in front of the thing that is sold in the store, if the input is complete, enter 0");
 
                 int tmpItemNum = 0;
                 do {
 
-                    for (int j = 0; j < items.length; j++) {
-                        System.out.println((j + 1) + ". " + items[j].getName());
+                    for (int j = 0; j < items.size(); j++) {
+                        System.out.println((j + 1) + ". " + items.get(j).getName());
                     }
 
                     tmpItemNum = intManipulation(scanner);
@@ -444,7 +440,7 @@ public class Main {
                     if (tmpItemNum != 0) {
 
                         try{
-                            storeItems = checkDuplicate(items, storeItems, tmpItemNum, i);
+                            storeItems = checkDuplicate(items, storeItems, tmpItemNum);
                         }catch (DuplicateItemException e){
                             System.out.println("Error! Postal code needs to consist of numbers");
                             logger.error(e.getMessage(), e);
@@ -459,7 +455,7 @@ public class Main {
             }
 
 
-            stores[i] = new Store(tmpName, tmpEmailAddress, storeItems);
+            stores.add(new Store(tmpName, tmpEmailAddress, storeItems));
         }
 
         return stores;
@@ -472,19 +468,19 @@ public class Main {
      * @param factories Niz tvornica za koje se traži tvornica s najvećim volumenom artikla.
      * @return Tvornica koja proizvodi artikl najvećeg volumena.
      */
-    static Factory factoryWithTheBiggestVolumeItem(Factory[] factories) {
+    static Factory factoryWithTheBiggestVolumeItem(List<Factory> factories) {
 
-        Factory tmpFactory = factories[0];
+        Factory tmpFactory = factories.getFirst();
         BigDecimal tmpVolume = new BigDecimal(0);
 
-        for (int i = 0; i < NUM_FACTORIES; i++) {
-            for (int j = 0; j < factories[i].getItems().length; j++) {
+        for (Factory factory: factories) {
+            for (Item item: factory.getItems()) {
 
-                BigDecimal itemVolume = factories[i].getItems()[j].getHeight().multiply(factories[i].getItems()[j].getWidth().multiply(factories[i].getItems()[j].getLength()));
+                BigDecimal itemVolume = item.getHeight().multiply(item.getLength().multiply(item.getWidth()));
 
                 if (itemVolume.compareTo(tmpVolume) > 0) {
                     tmpVolume = itemVolume;
-                    tmpFactory = factories[i];
+                    tmpFactory = factory;
                 }
             }
 
@@ -499,15 +495,15 @@ public class Main {
      * @param stores Niz trgovina za koje se traži trgovina s najjeftinijim artiklom.
      * @return Trgovina koja prodaje najjeftiniji artikl.
      */
-    static Store storeWithTheCheapestItem(Store[] stores) {
-        Store tmpStore = stores[0];
+    static Store storeWithTheCheapestItem(List<Store> stores) {
+        Store tmpStore = stores.getFirst();
         BigDecimal tmpPrice = new BigDecimal(100000);
 
-        for (int i = 0; i < NUM_STORES; i++) {
-            for (int j = 0; j < stores[i].getItems().length; j++) {
-                if (tmpPrice.compareTo(stores[i].getItems()[j].getSellingPrice()) < 0) {
-                    tmpStore = stores[i];
-                    tmpPrice = stores[i].getItems()[j].getSellingPrice();
+        for (Store store: stores) {
+            for (Item item: store.getItems()) {
+                if (tmpPrice.compareTo(item.getSellingPrice()) < 0) {
+                    tmpStore = store;
+                    tmpPrice = item.getSellingPrice();
                 }
             }
         }
@@ -520,15 +516,15 @@ public class Main {
      * @param items Niz artikala za koje se traži artikl s najvećim brojem kalorija.
      * @return Artikl s najvećim brojem kalorija ili null ako nema jestivih artikala.
      */
-    static Item itemWithTheMostCalories(Item[] items) {
-        Item tmpItem = items[0];
+    static Item itemWithTheMostCalories(List<Item> items) {
+        Item tmpItem = items.getFirst();
         int tmpMaxCalories = 0;
 
-        for (Item i : items) {
-            if (i instanceof Edible edible) {
+        for (Item item : items) {
+            if (item instanceof Edible edible) {
                 if (edible.calculateKilocalories() > tmpMaxCalories) {
                     tmpMaxCalories = edible.calculateKilocalories();
-                    tmpItem = i;
+                    tmpItem = item;
                 }
             }
         }
@@ -542,15 +538,15 @@ public class Main {
      * @param items Niz artikala za koje se traži artikl s najvećom cijenom.
      * @return Artikl s najvećom cijenom ili null ako nema jestivih artikala.
      */
-    static Item theMostExpenciveItem(Item[] items) {
-        Item tmpItem = items[0];
+    static Item theMostExpenciveItem(List<Item> items) {
+        Item tmpItem = items.getFirst();
         int tmpMaxPrice = 0;
 
-        for (Item i : items) {
-            if (i instanceof Edible edible) {
+        for (Item item : items) {
+            if (item instanceof Edible edible) {
                 if (edible.calculatePrice() > tmpMaxPrice) {
                     tmpMaxPrice = edible.calculateKilocalories();
-                    tmpItem = i;
+                    tmpItem = item;
                 }
             }
         }
@@ -564,15 +560,15 @@ public class Main {
      * @param items Niz artikala među kojima se traži laptop s najkraćim vijekom trajanja jamstva.
      * @return Laptop s najkraćim vijekom trajanja jamstva ili null ako nema laptopa u nizu.
      */
-    static Item findTheLaptopWithTheShortestWarranty(Item[] items) {
-        Item tmpItem = items[0];
+    static Item findTheLaptopWithTheShortestWarranty(List<Item> items) {
+        Item tmpItem = items.getFirst();
         int warranty = 0;
 
-        for (Item i : items) {
-            if (i instanceof Laptop laptop) {
+        for (Item item : items) {
+            if (item instanceof Laptop laptop) {
                 if (laptop.warrantyDuration() > warranty) {
                     warranty = laptop.warrantyDuration();
-                    tmpItem = i;
+                    tmpItem = item;
                 }
             }
         }
@@ -639,16 +635,22 @@ public class Main {
      * @param item Artikal koji se provjerava na duplikate.
      * @return True ako artikal već postoji u nizu, inače false.
      */
-    static boolean itemDuplicateCheck(Item[] items, Item item, int length){
-        boolean check = false;
-
-        for(int i = 0; i < length; i++){
-            if(items[i].equals(item)){
-                check = true;
-                break;
+    static boolean itemDuplicateCheck(List<Item> items, Item item){
+         for(Item tmpItem : items){
+            if(tmpItem.equals(item)){
+                return true;
             }
         }
-        return check;
+        return false;
+    }
+
+    static boolean factoryItemDuplicateCheck (Set<Item> items, Item item){
+        for(Item tmpItem : items){
+            if(tmpItem.equals(item)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -658,14 +660,13 @@ public class Main {
      * @param category Kategorija koja se provjerava na duplikate.
      * @return True ako kategorija već postoji u nizu, inače false.
      */
-    static boolean categoryDuplicateCheck(Category[] categories, Category category, int length){
+    static boolean categoryDuplicateCheck(List<Category> categories, Category category){
 
-        for(int i = 0 ; i < length; i++){
-            if(categories[i].equals(category)){
+        for(Category tmpCat : categories){
+            if(tmpCat.equals(category)){
                 return true;
             }
         }
-
         return false;
     }
 
@@ -677,7 +678,7 @@ public class Main {
      * @return true ako je niz sastavljen isključivo od decimalnih brojeva, inače false.
      */
     static boolean stringNumberCheck(String string){
-        return string.matches("^[0-9]*$");
+        return !string.matches("^[0-9]*$");
     }
 
     /**
@@ -688,7 +689,7 @@ public class Main {
      * @throws PostalCodeException Ako poštanski broj nije ispravno formatiran.
      */
     static String postalCodeCheck(String tmpstring) throws PostalCodeException{
-        if (!stringNumberCheck(tmpstring)) {
+        if (stringNumberCheck(tmpstring)) {
             throw new PostalCodeException("User input wrong, postal code was not made from numbers");
         }
         return tmpstring;

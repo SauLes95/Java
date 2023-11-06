@@ -1,5 +1,8 @@
 package hr.java.production.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Predstavlja tvornicu u sustavu proizvodnje.
  * Svaka tvornica ima svoju adresu i proizvode koje proizvodi.
@@ -7,7 +10,7 @@ package hr.java.production.model;
 public class Factory extends NamedEntity{
 
     private Address address;
-    private Item[] items;
+    private Set<Item> items;
 
 
     /**
@@ -17,7 +20,7 @@ public class Factory extends NamedEntity{
      * @param address Adresa tvornice.
      * @param items   Proizvodi proizvedeni u tvornici.
      */
-    public Factory(String name, Address address, Item[] items) {
+    public Factory(String name, Address address, Set<Item> items) {
         super(name);
         this.address = address;
         this.items = items;
@@ -31,11 +34,11 @@ public class Factory extends NamedEntity{
         this.address = address;
     }
 
-    public Item[] getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 }

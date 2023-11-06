@@ -1,11 +1,13 @@
 package hr.java.production.model;
 
+import java.util.Set;
+
 /**
  * Razred koji predstavlja trgovinu u sustavu proizvodnje.
  */
 public class Store extends NamedEntity {
     private String webAddress;
-    private Item[] items;
+    private Set<Item> items;
 
     /**
      * Konstruktor za inicijalizaciju trgovine.
@@ -14,7 +16,7 @@ public class Store extends NamedEntity {
      * @param webAddress Web adresa trgovine.
      * @param items      Polje proizvoda koji su dostupni u trgovini.
      */
-    public Store(String name, String webAddress, Item[] items) {
+    public Store(String name, String webAddress, Set<Item> items) {
         super(name);
         this.webAddress = webAddress;
         this.items = items;
@@ -28,11 +30,11 @@ public class Store extends NamedEntity {
         this.webAddress = webAddress;
     }
 
-    public Item[] getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 }
