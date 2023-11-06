@@ -1,5 +1,7 @@
 package hr.java.production.model;
 
+import hr.java.production.enumeration.City;
+
 import java.util.Objects;
 
 /**
@@ -9,9 +11,7 @@ public class Address {
 
     private String street;
     private String houseNumber;
-    private String city;
-    private String postalCode;
-
+    private City city;
     private Address(){}
 
     /**
@@ -19,7 +19,8 @@ public class Address {
      * Ova klasa omogućava postavljanje vrijednosti za adrese koristeći različite metode.
      */
     public static class Builder {
-        private String street, houseNumber, city, postalCode;
+        private String street, houseNumber;
+        private City city;
 
         /**
          * Postavlja naziv ulice adrese.
@@ -49,21 +50,11 @@ public class Address {
          * @param city Grad.
          * @return Trenutna instanca Builder objekta.
          */
-        public Builder inCity(String city) {
+        public Builder inCity(City city) {
             this.city = city;
             return this;
         }
 
-        /**
-         * Postavlja poštanski broj adrese.
-         *
-         * @param postalCode Poštanski broj.
-         * @return Trenutna instanca Builder objekta.
-         */
-        public Builder withPostalCode(String postalCode) {
-            this.postalCode = postalCode;
-            return this;
-        }
 
         /**
          * Izgrađuje i vraća instancu objekta klase {@link Address} s postavljenim vrijednostima.
@@ -75,7 +66,6 @@ public class Address {
             address.street = this.street;
             address.houseNumber = this.houseNumber;
             address.city = this.city;
-            address.postalCode = this.postalCode;
             return address;
         }
     }
@@ -98,20 +88,12 @@ public class Address {
         this.houseNumber = houseNumber;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
 
@@ -125,8 +107,7 @@ public class Address {
         return "Address : " +
                 "street : " + street + ", " +
                 "house number : " + houseNumber + ", " +
-                "city : " + city + ", " +
-                "zip code : " + postalCode;
+                "city : " + city;
     }
 
     @Override
@@ -143,13 +124,12 @@ public class Address {
 
         return Objects.equals(getStreet(), tmpAddress.getStreet()) &&
                 Objects.equals(getHouseNumber(), tmpAddress.getHouseNumber()) &&
-                Objects.equals(getCity(), tmpAddress.getCity()) &&
-                Objects.equals(getPostalCode(), tmpAddress.getPostalCode());
+                Objects.equals(getCity(), tmpAddress.getCity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getStreet(), getHouseNumber(), getCity(), getPostalCode());
+        return Objects.hash(getStreet(), getHouseNumber(), getCity());
     }
 
 }

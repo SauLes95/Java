@@ -1,5 +1,6 @@
 package hr.java.production.main;
 
+import hr.java.production.enumeration.City;
 import hr.java.production.exception.*;
 import hr.java.production.model.*;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -331,35 +333,23 @@ public class Main {
             System.out.print("\tHouse number: ");
             String tmpHouseNumber = scanner.nextLine();
 
-            System.out.print("\tCity: ");
-            String tmpCity = scanner.nextLine();
+            City tmpCity;
 
-
-            boolean check = true;
-            String tmpPostalCode = "tmppostalcode";
-            do{
-                System.out.print("\tPostal code: ");
-                tmpPostalCode = scanner.nextLine();
-
-                try{
-                    if(stringNumberCheck(tmpPostalCode)){
-                        tmpPostalCode=postalCodeCheck(tmpPostalCode);
-
-                    }
-                }catch (PostalCodeException e){
-                    System.out.println("Enter postal code that is made from numbers!");
+            while (true) {
+                try {
+                    tmpCity = inputCity(scanner);
+                    break;
+                } catch (CityFinderException e) {
                     logger.error(e.getMessage());
+                    System.out.println("Enter one of the following cities: Zagreb, Split, Rijeka, Osijek, Zadar");
                 }
-
-                check = stringNumberCheck(tmpPostalCode);
-            }while(check);
+            }
 
 
             Address tmpAddress = new Address.Builder()
                     .atStreet(tmpStreet)
                     .withHouseNumber(tmpHouseNumber)
                     .inCity(tmpCity)
-                    .withPostalCode(tmpPostalCode)
                     .build();
 
             Set<Item> factoryItems = new HashSet<>();
@@ -693,6 +683,33 @@ public class Main {
             throw new PostalCodeException("User input wrong, postal code was not made from numbers");
         }
         return tmpstring;
+    }
+
+
+
+    /**
+     * Collects user input to determine the city.
+     * <p>
+     * Prompts the user to enter the name of a city. It checks if the entered city is in the list of supported cities.
+     * If the city is not supported, a {@code CityNotSupportedException} is thrown.
+     *
+     * @param scanner A Scanner object for reading user input.
+     * @return A {@code Cities} enum value representing the entered city.
+     * @throws CityFinderException If the entered city is not supported.
+     */
+    static City inputCity(Scanner scanner) throws CityFinderException {
+        System.out.print("City: ");
+        String name = scanner.nextLine();
+
+        return switch (name) {
+            case "Zagreb" -> City.ZAGREB;
+            case "Split" -> City.SPLIT;
+            case "Rijeka" -> City.RIJEKA;
+            case "Osijek" -> City.OSIJEK;
+            case "Zadar" -> City.ZADAR;
+            default ->
+                    throw new CityFinderException("User entered city that is not listed in enumeration city base");
+        };
     }
 
 }

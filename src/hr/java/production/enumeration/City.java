@@ -36,4 +36,11 @@ public enum City {
         public void setPostalCode(String postalCode) {
             this.postalCode = postalCode;
         }
+
+    @Override
+    public String toString() {
+        return "City: " +
+                "name " + name + ' ' +
+                ", postalCode " + postalCode + ' ';
+    }
 }
