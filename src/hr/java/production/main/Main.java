@@ -3,6 +3,7 @@ package hr.java.production.main;
 import hr.java.production.enumeration.City;
 import hr.java.production.exception.*;
 import hr.java.production.model.*;
+import hr.java.production.sort.ProductionSorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,27 @@ public class Main {
         List<Item> items = setItems(categories);
         List<Factory> factories = setFactories(items);
         List<Store> stores = setStores(items);
+
+        Map<Category, List<Item>> itemsByCategory = new HashMap<>();
+
+        for(Item item : items){
+            if(!itemsByCategory.containsKey(item.getCategory())){
+                itemsByCategory.put(item.getCategory(), new ArrayList<>());
+            }
+            itemsByCategory.get(item.getCategory()).add(item);
+        }
+
+        for (Map.Entry<Category, List<Item>> entry : itemsByCategory.entrySet()) {
+            Category category = entry.getKey();
+            List<Item> tmpItems = entry.getValue();
+
+            items.sort(new ProductionSorter());
+
+            System.out.println("Kategorija: " + category.getName());
+            System.out.println("Najjeftiniji artikl: " + tmpItems.get(0));
+            System.out.println("Najskuplji artikl: " + tmpItems.get(tmpItems.size() - 1));
+            System.out.println();
+        }
 
         Factory theBiggestVolumeFactory = factoryWithTheBiggestVolumeItem(factories);
         System.out.println("Factory with the item that has biggest volume is " + theBiggestVolumeFactory.getName());
@@ -55,70 +77,9 @@ public class Main {
             System.out.println("There were no laptops in items");
         }
 
+
+
     }
-
-    /**
-     * Reducira veličinu niza predanih artikala za 1.
-     *
-     * @param items Niz artikala koji se trebaju smanjiti za 1 element.
-     * @return Novi niz artikala smanjen za 1 element.
-     */
-    static Item[] reduceItemsSize(Item[] items) {
-
-        return new Item[items.length - 1];
-    }
-
-    /**
-     * Uklanja odabrani artikl iz niza artikala.
-     *
-     * @param items          Niz artikala iz kojeg treba ukloniti odabrani artikl.
-     * @param tmpItemNumber  Broj odabranog artikla za uklanjanje.
-     * @return Novi niz artikala koji ne uključuje odabrani artikl.
-     */
-    static Item[] removeItem(Item[] items, int tmpItemNumber) {
-        Item[] newItems = reduceItemsSize(items);
-        int tmpCounter = 0;
-        for (int i = 0; i < items.length; i++) {
-            if (i != tmpItemNumber - 1) {
-                newItems[tmpCounter] = items[i];
-                tmpCounter++;
-            }
-        }
-
-        return newItems;
-    }
-
-    /**
-     * Povećava veličinu niza artikala za jedan element.
-     *
-     * @param factoryItems  Niz artikala kojemu se treba povećati veličinu.
-     * @return Novi niz artikala s povećanom veličinom koji uključuje sve elemente iz izvornog niza.
-     */
-    static Item[] increaseItemsSize(Item[] factoryItems) {
-
-        Item[] newItems = new Item[factoryItems.length + 1];
-
-        for (int i = 0; i < factoryItems.length; i++) {
-            newItems[i] = factoryItems[i];
-        }
-
-        return newItems;
-    }
-
-    /**
-     * Dodaje novi artikal na kraj niza artikala.
-     *
-     * @param item   Artikal koji treba dodati u niz.
-     * @param items  Niz artikala u koji se dodaje novi artikal.
-     * @return Novi niz artikala koji uključuje sve prethodne artikle i dodani artikal.
-     */
-    static Item[] addItem(Item item, Item[] items) {
-        Item[] newItems = increaseItemsSize(items);
-        newItems[items.length] = item;
-
-        return newItems;
-    }
-
 
     /**
      * Unosi i postavlja kategorije u niz kategorija.

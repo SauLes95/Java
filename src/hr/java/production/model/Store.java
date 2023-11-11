@@ -1,5 +1,8 @@
 package hr.java.production.model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,6 +12,7 @@ import java.util.Set;
 public class Store extends NamedEntity {
     private String webAddress;
     private Set<Item> items;
+
 
     /**
      * Konstruktor za inicijalizaciju trgovine.
@@ -22,6 +26,7 @@ public class Store extends NamedEntity {
         this.webAddress = webAddress;
         this.items = items;
     }
+
 
     public String getWebAddress() {
         return webAddress;
@@ -38,6 +43,7 @@ public class Store extends NamedEntity {
     public void setItems(Set<Item> items) {
         this.items = items;
     }
+
 
     @Override
     public boolean equals(Object tmpObject) {
