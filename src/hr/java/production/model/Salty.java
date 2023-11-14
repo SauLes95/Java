@@ -11,7 +11,7 @@ public class Salty extends Item implements Edible {
     /**
      * Broj kalorija po kilogramu.
      */
-    public static final int caloriesPerKilo = 3250;
+    public static final Integer caloriesPerKilo = 3250;
 
     private BigDecimal weight;
 
@@ -47,7 +47,7 @@ public class Salty extends Item implements Edible {
      * @return Ukupan broj kilokalorija za slani proizvod.
      */
     @Override
-    public int calculateKilocalories() {
+    public Integer calculateKilocalories() {
         return weight.multiply(new BigDecimal(caloriesPerKilo)).intValue();
     }
 
@@ -57,9 +57,9 @@ public class Salty extends Item implements Edible {
      * @return Cijena slanog proizvoda s uključenim popustom.
      */
     @Override
-    public double calculatePrice() {
-        double price = weight.multiply(sellingPrice).doubleValue();
-        double tmpDiscount = price * discount.discountAmount() / 100;
+    public Double calculatePrice() {
+        Double price = weight.multiply(sellingPrice).doubleValue();
+        Double tmpDiscount = price * discount.discountAmount() / 100;
         return (price - tmpDiscount);
     }
 

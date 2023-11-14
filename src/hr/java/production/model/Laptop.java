@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Klasa koja predstavlja laptop.
  */
-public non-sealed class Laptop extends Item implements Technical {
+public class Laptop extends Item implements Technical {
     private Integer warrantyDuration;
 
     /**

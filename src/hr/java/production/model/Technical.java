@@ -1,10 +1,12 @@
 package hr.java.production.model;
 
+import hr.java.production.generics.TechnicalStore;
+
 /**
  * Sučelje koje označava tehničke proizvode u sustavu proizvodnje.
  * Implementira metodu za dobivanje trajanja jamstva.
  */
-public sealed interface Technical permits Laptop {
+public interface Technical{
     /**
      * Vraća trajanje jamstva za tehnički proizvod.
      *

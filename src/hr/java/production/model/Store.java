@@ -1,17 +1,14 @@
 package hr.java.production.model;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Razred koji predstavlja trgovinu u sustavu proizvodnje.
  */
 public class Store extends NamedEntity {
     private String webAddress;
-    private Set<Item> items;
+    private Set<Item> items = new LinkedHashSet<>();
 
 
     /**
@@ -27,6 +24,7 @@ public class Store extends NamedEntity {
         this.items = items;
     }
 
+    public Store (){}
 
     public String getWebAddress() {
         return webAddress;
@@ -44,6 +42,16 @@ public class Store extends NamedEntity {
         this.items = items;
     }
 
+
+    public void sortStoreItems(){
+        List<Item> itemList = new ArrayList<>(items);
+
+        itemList.sort((item1, item2) -> item1.getVolume().compareTo(item2.getVolume()));
+
+        Set<Item> setItems = new LinkedHashSet<>(itemList);
+
+        this.items = setItems;
+    }
 
     @Override
     public boolean equals(Object tmpObject) {
@@ -67,4 +75,6 @@ public class Store extends NamedEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getWebAddress(), getItems());
     }
+
+
 }

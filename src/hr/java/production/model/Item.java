@@ -97,7 +97,9 @@ public class Item extends NamedEntity {
         this.discount = discount;
     }
 
-
+    public BigDecimal getVolume(){
+        return width.multiply(length.multiply(height));
+    }
     @Override
     public boolean equals(Object tmpObject) {
         if (this == tmpObject) {
@@ -125,4 +127,17 @@ public class Item extends NamedEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), category, width, height, length, productionCost, sellingPrice, discount);
     }
+
+    @Override
+    public String toString() {
+        return "Item name - "+ super.getName()
+                + ", category - " + category.getName()
+                + ", width - " + width
+                + ", height - " + height
+                + ", length - " + length
+                + ", productionCost - " + productionCost
+                + ", sellingPrice - " + sellingPrice
+                + ", discount - " + (discount != null ? discount.discountAmount() : "No discount") ;
+    }
+
 }

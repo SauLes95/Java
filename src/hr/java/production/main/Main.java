@@ -2,6 +2,8 @@ package hr.java.production.main;
 
 import hr.java.production.enumeration.City;
 import hr.java.production.exception.*;
+import hr.java.production.generics.FoodStore;
+import hr.java.production.generics.TechnicalStore;
 import hr.java.production.model.*;
 import hr.java.production.sort.ProductionSorter;
 import org.slf4j.Logger;
@@ -77,6 +79,44 @@ public class Main {
             System.out.println("There were no laptops in items");
         }
 
+        TechnicalStore<Technical> technicalStore = new TechnicalStore<>();
+        FoodStore<Edible> foodStore = new FoodStore<>();
+
+        for(Item item : items){
+            if(item instanceof Edible edible){
+                foodStore.addItem(edible);
+            }
+            if(item instanceof Technical technical){
+                technicalStore.addItem(technical);
+            }
+        }
+
+        for(Store store : stores){
+            store.sortStoreItems();
+        }
+
+        technicalStore.sortStoreItems();
+        foodStore.sortStoreItems();
+
+        BigDecimal avgPriceOfBiggerItems = avgPriceOfBigItems(items);
+
+        List<Store> storesWithALotOfItems = calculateStoresWithALotOfItems(stores);
+
+        Optional<Item> itemsWithDiscount = findItemsWithDiscount(items);
+
+        if (itemsWithDiscount.isPresent()) {
+            System.out.println("Pronađeni su objekti s popstom.");
+        } else {
+            System.out.println("Nije pronađen nijedan objekt s popustom.");
+        }
+
+
+        for(Store store : stores){
+            printStoreItems(store);
+        }
+
+        printStoreItems(technicalStore);
+        printStoreItems(foodStore);
 
 
     }
@@ -189,6 +229,7 @@ public class Main {
 
                 try{
                     if (tmpEdible.equals("yes")) {
+
 
                         System.out.print("\tWeight: ");
                         BigDecimal tmpWeight = bigDecimalManipulation(scanner);
@@ -326,12 +367,15 @@ public class Main {
 
                 tmpItemNum = intManipulation(scanner);
 
-                try{
-                    factoryItems = checkDuplicate(items, factoryItems, tmpItemNum);
-                }catch (DuplicateItemException e){
-                    System.out.println("Item can be added in the factory only one time, add item that was not previously added in the factory!");
-                    logger.error(e.getMessage(), e);
+                if(tmpItemNum != 0){
+                    try{
+                        factoryItems = checkDuplicate(items, factoryItems, tmpItemNum);
+                    }catch (DuplicateItemException e){
+                        System.out.println("Item can be added in the factory only one time, add item that was not previously added in the factory!");
+                        logger.error(e.getMessage(), e);
+                    }
                 }
+
 
             } while (tmpItemNum != 0);
 
@@ -374,7 +418,7 @@ public class Main {
             System.out.print("\tE-mail address: ");
             String tmpEmailAddress = scanner.nextLine();
 
-            Set<Item> storeItems = new HashSet<>();
+            Set<Item> storeItems = new LinkedHashSet<>();
 
             if (!items.isEmpty()) {
                 System.out.println("\tEnter the number in front of the thing that is sold in the store, if the input is complete, enter 0");
@@ -406,8 +450,11 @@ public class Main {
             }
 
 
+
             stores.add(new Store(tmpName, tmpEmailAddress, storeItems));
         }
+
+
 
         return stores;
     }
@@ -482,7 +529,6 @@ public class Main {
 
         return tmpItem;
     }
-
     /**
      * Pronalazi i vraća artikl s najvećom cijenom među svim jestivim artiklima.
      *
@@ -673,5 +719,63 @@ public class Main {
         };
     }
 
+    static BigDecimal avgPriceOfBigItems(List<Item> items){
+
+        try{
+            if(BigDecimal.valueOf(items.size()).equals(0)){
+                BigDecimal averageVolume = items.stream()
+                        .map(Item::getVolume)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        .divide(BigDecimal.valueOf(items.size()), 5, BigDecimal.ROUND_HALF_UP);
+
+                List<BigDecimal> pricesOfAboveAverageVolumeItems = items.stream()
+                        .filter(item -> item.getVolume().compareTo(averageVolume) > 0)
+                        .map(Item::getSellingPrice)
+                        .toList();
+
+
+                BigDecimal averagePrice = pricesOfAboveAverageVolumeItems.stream()
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        .divide(BigDecimal.valueOf(pricesOfAboveAverageVolumeItems.size()), 5, BigDecimal.ROUND_HALF_UP);
+
+                return averagePrice;
+            }else{
+                throw new ArithmeticException("Dividing by 0") ;
+            }
+
+        }catch(ArithmeticException e){
+            System.out.println("Error! Postal code needs to consist of numbers");
+            logger.error(e.getMessage(), e);
+        }
+
+        return new BigDecimal(0);
+    }
+
+    static List<Store> calculateStoresWithALotOfItems(List<Store> stores){
+        List<Store> storesWithAboveAverageItems = stores.stream()
+                .filter(store -> {
+                    double averageNumberOfItems = stores.stream()
+                            .mapToInt(s -> s.getItems().size())
+                            .average()
+                            .orElse(0.0);
+                    return store.getItems().size() > averageNumberOfItems;
+                })
+                .collect(Collectors.toList());
+
+        return storesWithAboveAverageItems;
+    }
+
+    static Optional<Item> findItemsWithDiscount(List<Item> items){
+        return items.stream()
+                .filter(item -> item.getDiscount().discountAmount() > 0)
+                .findFirst();
+
+    }
+
+    static void printStoreItems(Store store){
+        store.getItems().stream()
+                .map(Item::toString)
+                .forEach(System.out::println);
+    }
 }
 

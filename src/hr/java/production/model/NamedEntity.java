@@ -13,10 +13,12 @@ public abstract class NamedEntity {
      *
      * @param name Naziv entiteta.
      */
+
     public NamedEntity(String name) {
         this.name = name;
     }
 
+    public NamedEntity(){}
     public String getName() {
         return name;
     }

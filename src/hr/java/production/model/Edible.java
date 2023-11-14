@@ -9,13 +9,13 @@ public interface Edible {
      *
      * @return Ukupan broj kilokalorija.
      */
-    int calculateKilocalories();
+    Integer calculateKilocalories();
 
     /**
      * Izračunava cijenu objekta koji se može konzumirati.
      *
      * @return Cijena objekta.
      */
-    double calculatePrice();
+    Double calculatePrice();
 }
 

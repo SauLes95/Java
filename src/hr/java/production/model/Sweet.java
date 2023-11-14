@@ -43,7 +43,7 @@ public class Sweet extends Item implements Edible {
      * @return Ukupan broj kilokalorija za proizvod.
      */
     @Override
-    public int calculateKilocalories() {
+    public Integer calculateKilocalories() {
         return weight.multiply(new BigDecimal(caloriesPerKilo)).intValue();
     }
 
@@ -53,9 +53,9 @@ public class Sweet extends Item implements Edible {
      * @return Ukupna cijena proizvoda s popustom.
      */
     @Override
-    public double calculatePrice() {
-        double price = weight.multiply(sellingPrice).doubleValue();
-        double tmpDiscount = price * discount.discountAmount() / 100;
+    public Double calculatePrice() {
+        Double price = weight.multiply(sellingPrice).doubleValue();
+        Double tmpDiscount = price * discount.discountAmount() / 100;
         return (price - tmpDiscount);
     }
 
