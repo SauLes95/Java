@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Store extends NamedEntity {
     private String webAddress;
-    private Set<Item> items = new LinkedHashSet<>();
+    private Set<Item> items = new HashSet<>();
 
 
     /**

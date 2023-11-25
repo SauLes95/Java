@@ -54,3 +54,41 @@ java.util.InputMismatchException: null
 java.lang.ArithmeticException: Dividing by 0
 	at hr.java.production.main.Main.avgPriceOfBigItems(Main.java:743)
 	at hr.java.production.main.Main.main(Main.java:101)
+2023-11-25 20:50:35,187 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:51:20,336 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:51:55,176 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:52:07,640 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:54:45,914 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:54:52,080 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:57:42,284 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:57:46,130 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 20:59:52,205 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:02:02,412 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:02:18,703 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:04:13,144 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:04:13,152 ERROR [main] h.j.p.m.Main [FileUtils.java:143] City could not be found
+hr.java.production.exception.CityFinderException: City not in the database: [Obala Lazareta]. Cities in enums: [Zagreb, Split, Rijeka, Osijek, Zadar]
+	at hr.java.production.utility.FileUtils.convertStringToCity(FileUtils.java:259)
+	at hr.java.production.utility.FileUtils.getFactoriesFromFile(FileUtils.java:139)
+	at hr.java.production.main.Main.main(Main.java:32)
+2023-11-25 21:04:13,154 ERROR [main] h.j.p.m.Main [FileUtils.java:143] City could not be found
+hr.java.production.exception.CityFinderException: City not in the database: [16]. Cities in enums: [Zagreb, Split, Rijeka, Osijek, Zadar]
+	at hr.java.production.utility.FileUtils.convertStringToCity(FileUtils.java:259)
+	at hr.java.production.utility.FileUtils.getFactoriesFromFile(FileUtils.java:139)
+	at hr.java.production.main.Main.main(Main.java:32)
+2023-11-25 21:05:22,561 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:10:06,259 ERROR [main] h.j.p.m.Main [FileUtils.java:143] City could not be found
+hr.java.production.exception.CityFinderException: City not in the database: [Obala Lazareta]. Cities in enums: [Zagreb, Split, Rijeka, Osijek, Zadar]
+	at hr.java.production.utility.FileUtils.convertStringToCity(FileUtils.java:259)
+	at hr.java.production.utility.FileUtils.getFactoriesFromFile(FileUtils.java:139)
+	at hr.java.production.main.Main.main(Main.java:32)
+2023-11-25 21:10:06,263 ERROR [main] h.j.p.m.Main [FileUtils.java:143] City could not be found
+hr.java.production.exception.CityFinderException: City not in the database: [16]. Cities in enums: [Zagreb, Split, Rijeka, Osijek, Zadar]
+	at hr.java.production.utility.FileUtils.convertStringToCity(FileUtils.java:259)
+	at hr.java.production.utility.FileUtils.getFactoriesFromFile(FileUtils.java:139)
+	at hr.java.production.main.Main.main(Main.java:32)
+2023-11-25 21:10:25,526 INFO [main] h.j.p.m.Main [Main.java:28] Application started
+2023-11-25 21:10:25,542 ERROR [main] h.j.p.m.Main [Main.java:412] Dividing by 0
+java.lang.ArithmeticException: Dividing by 0
+	at hr.java.production.main.Main.avgPriceOfBigItems(Main.java:407)
+	at hr.java.production.main.Main.main(Main.java:102)

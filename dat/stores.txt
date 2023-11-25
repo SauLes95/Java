@@ -1,0 +1,8 @@
+1
+Food Store
+food_store@gmail.com
+1,2
+2
+Everything Else Store
+everything_else_store@gmail.com
+3,4,5
