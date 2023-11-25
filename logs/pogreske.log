@@ -1,0 +1,56 @@
+2023-11-07 17:25:12,853 INFO [main] h.j.p.m.Main [Main.java:24] Application started
+2023-11-13 08:42:08,603 INFO [main] h.j.p.m.Main [Main.java:27] Application started
+2023-11-13 14:36:35,774 INFO [main] h.j.p.m.Main [Main.java:27] Application started
+2023-11-13 14:37:56,981 INFO [main] h.j.p.m.Main [Main.java:271] User input was neither yes nor no
+hr.java.production.exception.YesNoOptionException: User input was neither yes nor no
+	at hr.java.production.main.Main.setItems(Main.java:266)
+	at hr.java.production.main.Main.main(Main.java:30)
+2023-11-13 14:38:52,751 INFO [main] h.j.p.m.Main [Main.java:616] Input was not a big decimal
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextBigDecimal(Scanner.java:2749)
+	at hr.java.production.main.Main.bigDecimalManipulation(Main.java:612)
+	at hr.java.production.main.Main.setItems(Main.java:235)
+	at hr.java.production.main.Main.main(Main.java:30)
+2023-11-13 14:39:14,301 ERROR [main] h.j.p.m.Main [Main.java:345] User entered city that is not listed in enumeration city base
+2023-11-13 14:39:22,205 ERROR [main] h.j.p.m.Main [Main.java:374] User added the same item twice
+hr.java.production.exception.DuplicateItemException: User added the same item twice
+	at hr.java.production.main.Main.checkDuplicate(Main.java:391)
+	at hr.java.production.main.Main.setFactories(Main.java:371)
+	at hr.java.production.main.Main.main(Main.java:31)
+2023-11-13 14:41:04,903 INFO [main] h.j.p.m.Main [Main.java:27] Application started
+2023-11-13 14:43:02,355 ERROR [main] h.j.p.m.Main [Main.java:345] User entered city that is not listed in enumeration city base
+2023-11-13 14:43:09,045 ERROR [main] h.j.p.m.Main [Main.java:375] User added the same item twice
+hr.java.production.exception.DuplicateItemException: User added the same item twice
+	at hr.java.production.main.Main.checkDuplicate(Main.java:394)
+	at hr.java.production.main.Main.setFactories(Main.java:372)
+	at hr.java.production.main.Main.main(Main.java:31)
+2023-11-13 14:43:27,381 ERROR [main] h.j.p.m.Main [Main.java:345] User entered city that is not listed in enumeration city base
+2023-11-13 18:04:45,289 INFO [main] h.j.p.m.Main [Main.java:27] Application started
+2023-11-13 18:05:33,380 INFO [main] h.j.p.m.Main [Main.java:619] Input was not a big decimal
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextBigDecimal(Scanner.java:2749)
+	at hr.java.production.main.Main.bigDecimalManipulation(Main.java:615)
+	at hr.java.production.main.Main.setItems(Main.java:235)
+	at hr.java.production.main.Main.main(Main.java:30)
+2023-11-13 18:05:37,072 INFO [main] h.j.p.m.Main [Main.java:259] User input was neither sweet nor salty
+hr.java.production.exception.SweetSaltyException: User input was neither sweet nor salty
+	at hr.java.production.main.Main.setItems(Main.java:251)
+	at hr.java.production.main.Main.main(Main.java:30)
+2023-11-13 18:05:44,258 ERROR [main] h.j.p.m.Main [Main.java:345] User entered city that is not listed in enumeration city base
+2023-11-14 10:12:49,507 INFO [main] h.j.p.m.Main [Main.java:27] Application started
+2023-11-14 10:14:05,801 INFO [main] h.j.p.m.Main [Main.java:619] Input was not a big decimal
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextBigDecimal(Scanner.java:2749)
+	at hr.java.production.main.Main.bigDecimalManipulation(Main.java:615)
+	at hr.java.production.main.Main.setItems(Main.java:235)
+	at hr.java.production.main.Main.main(Main.java:30)
+2023-11-14 10:15:15,488 ERROR [main] h.j.p.m.Main [Main.java:748] Dividing by 0
+java.lang.ArithmeticException: Dividing by 0
+	at hr.java.production.main.Main.avgPriceOfBigItems(Main.java:743)
+	at hr.java.production.main.Main.main(Main.java:101)
