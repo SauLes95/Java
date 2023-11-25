@@ -744,7 +744,7 @@ public class Main {
             }
 
         }catch(ArithmeticException e){
-            System.out.println("Error! Postal code needs to consist of numbers");
+            System.out.println("Cant divide by 0");
             logger.error(e.getMessage(), e);
         }
 

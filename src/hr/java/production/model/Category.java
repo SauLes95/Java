@@ -17,8 +17,8 @@ public class Category extends NamedEntity{
      * @param name        Ime kategorije.
      * @param description Opis kategorije.
      */
-    public Category(String name, String description) {
-        super(name);
+    public Category( Long id, String name, String description) {
+        super(id, name);
         this.description = description;
     }
 

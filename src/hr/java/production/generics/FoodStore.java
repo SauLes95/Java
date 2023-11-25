@@ -11,8 +11,8 @@ import java.util.Set;
 public class FoodStore <T extends Edible> extends Store implements Edible{
     private List<T> foodStoreItems = new ArrayList<>();;
 
-    public FoodStore(String name, String webAddress, Set<Item> items, List<T> foodStoreItems) {
-        super(name, webAddress, items);
+    public FoodStore(Long id, String name, String webAddress, Set<Item> items, List<T> foodStoreItems) {
+        super(id, name, webAddress, items);
         this.foodStoreItems = foodStoreItems;
     }
 

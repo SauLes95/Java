@@ -23,8 +23,8 @@ public class Sweet extends Item implements Edible {
      * @param discount       Popust na proizvod.
      * @param weight         Težina proizvoda.
      */
-    public Sweet(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount, BigDecimal weight) {
-        super(name, category, width, height, length, productionCost, sellingPrice, discount);
+    public Sweet(Long id, String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount, BigDecimal weight) {
+        super(id, name, category, width, height, length, productionCost, sellingPrice, discount);
         this.weight = weight;
     }
 

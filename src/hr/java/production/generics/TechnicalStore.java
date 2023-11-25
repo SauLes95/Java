@@ -10,10 +10,10 @@ import java.util.Set;
 
 public final class TechnicalStore <T extends Technical> extends Store implements Technical{
 
-    private List<T> technicalStoreItems = new ArrayList<>();;
+    private List<T> technicalStoreItems = new ArrayList<>();
 
-    public TechnicalStore(String name, String webAddress, Set<Item> items, List<T> technicalStoreItems) {
-        super(name, webAddress, items);
+    public TechnicalStore(Long id, String name, String webAddress, Set<Item> items, List<T> technicalStoreItems) {
+        super(id, name, webAddress, items);
         this.technicalStoreItems = technicalStoreItems;
     }
 

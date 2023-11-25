@@ -2,12 +2,14 @@ package hr.java.production.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Comparator;
 
 /**
  * Predstavlja proizvod u sustavu proizvodnje.
  * Svaki proizvod ima svoje svojstva, uključujući cijenu, dimenzije i kategoriju.
  */
-public class Item extends NamedEntity {
+public class Item extends NamedEntity{
     private Category category;
     private BigDecimal width;
     private BigDecimal height;
@@ -29,15 +31,21 @@ public class Item extends NamedEntity {
      * @param sellingPrice    Cijena prodaje predmeta.
      * @param discount        Popust na predmet.
      */
-    public Item(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount) {
-        super(name);
+    public Item(Long id, String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount) {
+        super(id, name);
         this.category = category;
         this.width = width;
         this.height = height;
         this.length = length;
         this.productionCost = productionCost;
-        this.sellingPrice = sellingPrice;
         this.discount = discount;
+
+        if (sellingPrice.compareTo(BigDecimal.ZERO) == 0) {
+            this.sellingPrice = null;
+        } else {
+            this.sellingPrice = sellingPrice;
+        }
+
     }
 
 
@@ -136,7 +144,9 @@ public class Item extends NamedEntity {
                 + ", height - " + height
                 + ", length - " + length
                 + ", productionCost - " + productionCost
-                + ", sellingPrice - " + sellingPrice
+                + ", sellingPrice - " +  Optional.ofNullable(sellingPrice)
+                                        .map(price -> price.compareTo(BigDecimal.ZERO) == 0 ? "potrebno definirati cijenu" : price.toString())
+                                        .orElse("No selling price")
                 + ", discount - " + (discount != null ? discount.discountAmount() : "No discount") ;
     }
 

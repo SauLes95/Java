@@ -1,5 +1,6 @@
 package hr.java.production.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -7,6 +8,8 @@ import java.util.Objects;
  */
 public abstract class NamedEntity {
     private String name;
+    private Long id;
+
 
     /**
      * Konstruktor za stvaranje instance klase NamedEntity.
@@ -14,8 +17,9 @@ public abstract class NamedEntity {
      * @param name Naziv entiteta.
      */
 
-    public NamedEntity(String name) {
+    public NamedEntity( Long id, String name) {
         this.name = name;
+        this.id = id;
     }
 
     public NamedEntity(){}
@@ -25,6 +29,15 @@ public abstract class NamedEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

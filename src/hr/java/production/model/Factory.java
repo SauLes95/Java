@@ -21,8 +21,8 @@ public class Factory extends NamedEntity{
      * @param address Adresa tvornice.
      * @param items   Proizvodi proizvedeni u tvornici.
      */
-    public Factory(String name, Address address, Set<Item> items) {
-        super(name);
+    public Factory(Long id, String name, Address address, Set<Item> items) {
+        super(id, name);
         this.address = address;
         this.items = items;
     }

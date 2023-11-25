@@ -28,8 +28,8 @@ public class Salty extends Item implements Edible {
      * @param discount      Popust na proizvod.
      * @param weight        Težina proizvoda.
      */
-    public Salty(String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount, BigDecimal weight) {
-        super(name, category, width, height, length, productionCost, sellingPrice, discount);
+    public Salty(Long id, String name, Category category, BigDecimal width, BigDecimal height, BigDecimal length, BigDecimal productionCost, BigDecimal sellingPrice, Discount discount, BigDecimal weight) {
+        super(id, name, category, width, height, length, productionCost, sellingPrice, discount);
         this.weight = weight;
     }
 
