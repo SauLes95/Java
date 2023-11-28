@@ -1,12 +1,13 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * Razred koji predstavlja trgovinu u sustavu proizvodnje.
  */
-public class Store extends NamedEntity {
+public class Store extends NamedEntity implements Serializable {
     private String webAddress;
     private Set<Item> items = new HashSet<>();
 

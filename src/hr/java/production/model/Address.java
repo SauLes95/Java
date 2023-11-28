@@ -2,12 +2,13 @@ package hr.java.production.model;
 
 import hr.java.production.enumeration.City;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Predstavlja adresu u sustavu proizvodnje. Adresa se sastoji od naziva ulice, kućnog broja, grada i poštanskog broja.
  */
-public class Address {
+public class Address implements Serializable {
 
     private String street;
     private String houseNumber;

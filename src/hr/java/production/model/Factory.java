@@ -1,5 +1,6 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.Set;
  * Predstavlja tvornicu u sustavu proizvodnje.
  * Svaka tvornica ima svoju adresu i proizvode koje proizvodi.
  */
-public class Factory extends NamedEntity{
+public class Factory extends NamedEntity implements Serializable {
 
     private Address address;
     private Set<Item> items;

@@ -1,5 +1,6 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,7 +10,7 @@ import java.util.Comparator;
  * Predstavlja proizvod u sustavu proizvodnje.
  * Svaki proizvod ima svoje svojstva, uključujući cijenu, dimenzije i kategoriju.
  */
-public class Item extends NamedEntity{
+public class Item extends NamedEntity implements Serializable {
     private Category category;
     private BigDecimal width;
     private BigDecimal height;

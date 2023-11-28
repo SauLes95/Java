@@ -1,12 +1,13 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Apstraktna klasa koja predstavlja entitet s nazivom.
  */
-public abstract class NamedEntity {
+public abstract class NamedEntity implements Serializable {
     private String name;
     private Long id;
 

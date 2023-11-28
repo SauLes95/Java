@@ -1,5 +1,6 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Objects;
  *
  * @param discountAmount Iznos popusta izražen kao cjelobrojna vrijednost.
  */
-public record Discount(Integer discountAmount) {
+public record Discount(Integer discountAmount) implements Serializable {
 
     @Override
     public boolean equals(Object tmpObject) {

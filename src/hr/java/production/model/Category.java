@@ -1,12 +1,13 @@
 package hr.java.production.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Predstavlja kategoriju predmeta u sustavu proizvodnje.
  * Svaka kategorija ima svoje ime i opis.
  */
-public class Category extends NamedEntity{
+public class Category extends NamedEntity implements Serializable {
 
     private String description;
 
